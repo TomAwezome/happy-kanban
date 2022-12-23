@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Happy Kanban</string>
+    <string-array name="categories">
+        <!--        <item></item> <!- - placeholder -->
+        <item>Backlog</item>
+        <item>Todo</item>
+        <item>Doing</item>
+        <item>Review</item>
+        <item>Done</item>
+    </string-array>
+</resources>
