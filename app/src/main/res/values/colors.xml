@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="orange_bright">#ED8A00</color>
+    <color name="orange_dark">#B35300</color>
+    <color name="orange_accent">#D7CD70</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
