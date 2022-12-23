@@ -9,15 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyKanban">
-
         <activity
-            android:name="com.tomawezome.happykanban.TaskEditActivity"
+            android:name=".DebugActivity"
             android:exported="false" />
         <activity
-            android:name="com.tomawezome.happykanban.CategoryListActivity"
+            android:name=".TaskEditActivity"
             android:exported="false" />
         <activity
-            android:name="com.tomawezome.happykanban.OverviewActivity"
+            android:name=".CategoryListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OverviewActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

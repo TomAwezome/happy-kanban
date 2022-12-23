@@ -36,4 +36,12 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
+
+    public void onClickDebug(View view)
+    {
+        Intent intent = new Intent(this, DebugActivity.class);
+        startActivity(intent);
+    }
+
+
 }
