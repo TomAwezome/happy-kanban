@@ -1,7 +1,5 @@
 package com.tomawezome.happykanban;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,10 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class TaskEditActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private String title;
@@ -86,39 +80,14 @@ public class TaskEditActivity extends AppCompatActivity implements AdapterView.O
         }
 
         Task ta = new Task(title, description, id, category);
+        DatabaseQueryHelper query_helper = new DatabaseQueryHelper(getApplicationContext());
         if (id.equals(""))
         { // new entry, not existing
-            String rand_id;
-            Random random = new Random();
-            SharedPreferences pref = getSharedPreferences("kanban", Context.MODE_PRIVATE);
-            Set<String> keys = pref.getStringSet("keys", null);
-            Set<String> out_keys = new HashSet<String>();
-            do {
-                rand_id = Integer.toString(random.nextInt(65535));
-            } while (keys.contains(rand_id)); // make sure we don't clobber existing
-            id = rand_id;
-            ta.setId(id);
-            for (String key: keys)
-                out_keys.add(key);
-            out_keys.add(id);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putStringSet("keys", out_keys);
-
-            editor.putString(id + "_description", description);
-            editor.putString(id + "_title", title);
-            editor.putString(id + "_category", category);
-            // id??... seems redundant to do id_id...
-
-            editor.apply();
+            id = Integer.toString( (int) query_helper.insertTask(ta) );
         }
         else
         { // existing entry, update it
-            SharedPreferences pref = getSharedPreferences("kanban", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString(id + "_description", description);
-            editor.putString(id + "_title", title);
-            editor.putString(id + "_category", category);
-            editor.apply();
+            query_helper.updateTask(ta);
         }
 
         finish();
@@ -126,27 +95,16 @@ public class TaskEditActivity extends AppCompatActivity implements AdapterView.O
 
     public void onDeleteClick(View view)
     {
-        // firebase things, but with a spicy delete twist ?
         TextView t = findViewById(R.id.titleEditText);
         TextView d = findViewById(R.id.descriptionEditText);
         title = t.getText().toString();
         description = d.getText().toString();
         id = getIntent().getStringExtra("id");
 
-        SharedPreferences pref = getSharedPreferences("kanban", Context.MODE_PRIVATE);
-        Set<String> keys = pref.getStringSet("keys", null);
-        Set<String> out_keys = new HashSet<String>();
-        for (String key: keys)
-            out_keys.add(key);
-        out_keys.remove(id);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putStringSet("keys", out_keys);
-        editor.remove(id + "_description");
-        editor.remove(id + "_title");
-        editor.remove(id + "_category");
+        DatabaseQueryHelper query_helper = new DatabaseQueryHelper(getApplicationContext());
+        Task task = new Task(title, description, id, category);
+        query_helper.deleteTask(task);
 
-
-        editor.apply();
         finish();
     }
 

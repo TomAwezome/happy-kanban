@@ -2,14 +2,13 @@ package com.tomawezome.happykanban;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Set;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,12 +26,14 @@ public class MainActivity extends AppCompatActivity {
     public void onClickStart(View view)
     {
         Intent intent = new Intent(this, OverviewActivity.class);
-        SharedPreferences pref = getSharedPreferences("kanban", Context.MODE_PRIVATE);
-        if (pref.contains("keys")) {
-            Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
-            Set<String> keys = pref.getStringSet("keys", null);
-            Toast.makeText(this, "Tasks found: " + Integer.toString(keys.size()), Toast.LENGTH_SHORT).show();
 
+        DatabaseQueryHelper query_helper = new DatabaseQueryHelper(getApplicationContext());
+        List<Task> tasks = query_helper.getAllTasks();
+
+        if (tasks.size() > 1)
+        {
+            Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Tasks found: " + Integer.toString(tasks.size()), Toast.LENGTH_SHORT).show();
         }
         startActivity(intent);
     }

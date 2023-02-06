@@ -2,9 +2,7 @@ package com.tomawezome.happykanban;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class CategoryListActivity extends AppCompatActivity {
 
@@ -63,7 +60,6 @@ public class CategoryListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Task task = adapter.getItem(i);
                 Intent intent2 = new Intent(adapter.getContext(), TaskEditActivity.class);
-                // putExtra: title, desc, documentId (need doc Id for deletion?)
                 intent2.putExtra("title", task.getTitle());
                 intent2.putExtra("description", task.getDescription());
                 intent2.putExtra("id", task.getId());
@@ -73,27 +69,20 @@ public class CategoryListActivity extends AppCompatActivity {
             }
         });
 
-        // look for a 'keys' SharedPreferences key... if no find, make and Toast about this ig
-        SharedPreferences pref = getSharedPreferences("kanban", Context.MODE_PRIVATE);
-        if (!pref.contains("keys"))
-        {
-            SharedPreferences.Editor editor = pref.edit();
-            /// make an empty Set<String> and push to it
-            Set<String> keys = new HashSet<String>();
-            editor.putStringSet("keys", keys);
-            editor.apply();
+        DatabaseQueryHelper query_helper = new DatabaseQueryHelper(getApplicationContext());
+        List<Task> tasks = query_helper.getAllTasks();
+
+        if (tasks.size() == 0)
+        { // user hasn't put any tasks into app at all, offer them welcoming help getting started text
             Toast.makeText(this, "Welcome! Press the + to make a new task!", Toast.LENGTH_SHORT).show();
-        }/*
-        else
-        {
-            Set<String> keys = pref.getStringSet("keys", null);
-            Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
-        }*/
+        }
+
     }
 
     class TaskAdapter extends ArrayAdapter<Task>
     {
         ArrayList<Task> tasks;
+
         TaskAdapter(Context context, ArrayList<Task> tasks) {
             super(context, 0, tasks);
             this.tasks = tasks;
@@ -123,31 +112,21 @@ public class CategoryListActivity extends AppCompatActivity {
         EditText search = findViewById(R.id.search);
         String searchText = search.getText().toString();
 
-        SharedPreferences pref = getSharedPreferences("kanban", Context.MODE_PRIVATE);
-        Set<String> keys = pref.getStringSet("keys", null);
-        //Toast.makeText(this, "Keys found ... " + Integer.toString(keys.size()), Toast.LENGTH_SHORT).show();
+        DatabaseQueryHelper query_helper = new DatabaseQueryHelper(getApplicationContext());
+        List<Task> tasks = query_helper.getAllTasksInCategory(choice);
 
-        ArrayList<Task> tasks = new ArrayList<>();
-        for (String key: keys)
+        // iterate result task list, if searchText set, pluck out ones that don't match
+        if (!searchText.equals(""))
         {
-            Task task = new Task();
-            task.setDescription(pref.getString(key + "_description", null));
-            task.setTitle(pref.getString(key + "_title", null));
-            task.setCategory(pref.getString(key + "_category", null));
-            task.setId(key); // needed???
-
-            if (choice.equals(task.getCategory()))
+            for (int i = 0; i < tasks.size(); i++)
             {
-                if (!searchText.equals(""))
+                Task task = tasks.get(i);
+                if (!task.getDescription().toLowerCase().contains(searchText.toLowerCase()) && !task.getTitle().toLowerCase().contains(searchText.toLowerCase()))
                 {
-                    if (task.getDescription().toLowerCase().contains(searchText.toLowerCase()) || task.getTitle().toLowerCase().contains(searchText.toLowerCase()))
-                        tasks.add(task);
+                    tasks.remove(i);
+                    i--; // decrement i, since we remove(i) we want to keep i in same spot
                 }
-                else
-                    tasks.add(task);
             }
-
-            Log.d("onResume:", task.getTitle() + ":" + task.getDescription());
         }
 
         if (tasks.size() == 0)
@@ -161,6 +140,7 @@ public class CategoryListActivity extends AppCompatActivity {
                         "Category is empty!",
                         Toast.LENGTH_SHORT).show();
         }
+
         adapter.clear();
         adapter.addAll(tasks);
     }
