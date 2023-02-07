@@ -26,8 +26,12 @@ jobs:
       run: ./gradlew assembleRelease
     - name: diagnosing
       run: ls -al
-    - name: Releasing using Hub
-      uses: kyze8439690/action-release-releaseapk@1.0.0
-      env:
-       GITHUB_TOKEN: ${{ secrets.TOKEN }}
-       APP_FOLDER: app
+    - name: Releasing
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: false
+        title: "Build"
+        files: |
+          app/build/outputs/release/app-release.apk
