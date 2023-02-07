@@ -25,14 +25,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleRelease
     - name: diagnosing
-      run: |
-        ls -al
-        ls -al ./app
-        ls -al ./app/build
-        ls -al ./app/build/outputs/
-        ls -al ./app/build/outputs/apk
-        find ./app/build/outputs/apk
-        ls -al ./app/build/outputs/apk/release
+      run: find ./app/build/outputs/apk/
     - name: Releasing
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -41,4 +34,4 @@ jobs:
         prerelease: false
         title: "Build"
         files: |
-          ./app/build/outputs/release/app-release.apk
+          ./app/build/outputs/apk/release/app-release-unsigned.apk
