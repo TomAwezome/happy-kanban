@@ -25,7 +25,8 @@
         android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/titleEditText"
-        app:layout_constraintBottom_toBottomOf="@id/titleEditText"/>
+        app:layout_constraintBottom_toBottomOf="@id/titleEditText"
+        android:layout_marginLeft="24dp" />
 
     <EditText
         android:id="@+id/descriptionEditText"
@@ -37,7 +38,8 @@
         android:minWidth="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/titleEditText"
-        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+        app:layout_constraintTop_toBottomOf="@id/titleEditText"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
