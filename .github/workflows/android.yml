@@ -30,8 +30,9 @@ jobs:
         ls -al ./app
         ls -al ./app/build
         ls -al ./app/build/outputs/
-        ls -al ./app/build/outputs/release
-        ls -al ./app/build/outputs/debug
+        ls -al ./app/build/outputs/apk
+        find ./app/build/outputs/apk
+        ls -al ./app/build/outputs/apk/release
     - name: Releasing
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -40,4 +41,4 @@ jobs:
         prerelease: false
         title: "Build"
         files: |
-          app/build/outputs/release/app-release.apk
+          ./app/build/outputs/release/app-release.apk
