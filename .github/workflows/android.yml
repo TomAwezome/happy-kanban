@@ -25,7 +25,13 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleRelease
     - name: diagnosing
-      run: ls -al
+      run: |
+        ls -al
+        ls -al ./app
+        ls -al ./app/build
+        ls -al ./app/build/outputs/
+        ls -al ./app/build/outputs/release
+        ls -al ./app/build/outputs/debug
     - name: Releasing
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
