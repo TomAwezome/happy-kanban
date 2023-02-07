@@ -4,7 +4,7 @@
 
 Kanban app for Android written in Java with Android Studio.
 
-![](app/src/main/res/mipmap-xxhdpi/ic_launcher_round)
+![](app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png)
 
 ## Install
 
