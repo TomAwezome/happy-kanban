@@ -24,6 +24,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assembleRelease
+    - name: diagnosing
+      run: ls -al
     - name: Releasing using Hub
       uses: kyze8439690/action-release-releaseapk@1.0.0
       env:
