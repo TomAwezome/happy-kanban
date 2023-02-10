@@ -48,7 +48,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "0.latest"
+        automatic_release_tag: "v999.latest"
         prerelease: false
         title: "Signed .APK [${{ github.sha }}]"
         files: ./app/build/outputs/apk/release/app-release.apk
