@@ -56,10 +56,13 @@ public class TaskEditActivity extends AppCompatActivity implements AdapterView.O
             de.setEnabled(false);
             de.setAlpha(0);
             s.setText("ADD TASK");
+            setTitle("Create New Task");
         }
         else
         {
+
             s.setText("UPDATE TASK");
+            setTitle("Edit Existing Task");
         }
     }
 
