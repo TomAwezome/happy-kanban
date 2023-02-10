@@ -2,7 +2,7 @@
 
 # Happy Kanban
 
-Simple Kanban app for Android written in Java with Android Studio using SQLite database for local task storage.
+Simple Kanban app for Android written in Java with Android Studio using SQLite database for local task storage. 
 
 ![](app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png)
 
