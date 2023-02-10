@@ -33,7 +33,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleRelease
 
-    - name: Releasing
+    - name: Releasing unique tagged version
       if: ${{ success() }}
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -41,5 +41,14 @@ jobs:
         automatic_release_tag: "v0.${{ github.run_number }}"
         prerelease: false
         title: "Signed .APK [${{ github.sha }}]"
-        files: |
-          ./app/build/outputs/apk/release/app-release.apk
+        files: ./app/build/outputs/apk/release/app-release.apk
+
+    - name: Releasing 'latest' tag (deletes previous 'latest')
+      if: ${{ success() }}
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: false
+        title: "Signed .APK [${{ github.sha }}]"
+        files: ./app/build/outputs/apk/release/app-release.apk
