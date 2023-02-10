@@ -8,7 +8,7 @@ Simple Kanban app for Android written in Java with Android Studio using SQLite d
 
 ## Install
 
-Download and install the [latest release APK](https://github.com/TomAwezome/happy-kanban/releases/latest).
+Download and install the [latest release APK](https://github.com/TomAwezome/happy-kanban/releases/tag/latest).
 
 ## Build & Install
 
