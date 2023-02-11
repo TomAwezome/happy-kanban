@@ -20,7 +20,7 @@ Download and install the [latest release APK](https://github.com/TomAwezome/happ
 
 ## Screenshots
 
-![](screenshots/screenshot-overview.png)
-![](screenshots/screenshot-category-list.png)
-![](screenshots/screenshot-task-edit.png)
+![](screenshots/screenshot_overview.png)
+![](screenshots/screenshot_category_list.png)
+![](screenshots/screenshot_task_edit.png)
 
